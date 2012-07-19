@@ -1,6 +1,14 @@
+target
+
 *.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+*~
+
+# Intellij IDEA files
+*.iml
+.idea
