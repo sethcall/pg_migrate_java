@@ -1,6 +1,8 @@
 <ivy-module version="1.0">
     <info organisation="pgmigrate" module="java"/>
     <dependencies>
+        <dependency org="postgresql" name="postgresql" rev="9.1-901.jdbc4"/>
         <dependency org="commons-lang" name="commons-lang" rev="2.0"/>
+        <dependency org="ch.qos.logback" name="logback-classic" rev="1.0.6"/>
     </dependencies>
 </ivy-module>
