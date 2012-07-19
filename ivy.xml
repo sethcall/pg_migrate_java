@@ -1,0 +1,6 @@
+<ivy-module version="1.0">
+    <info organisation="pgmigrate" module="java"/>
+    <dependencies>
+        <dependency org="commons-lang" name="commons-lang" rev="2.0"/>
+    </dependencies>
+</ivy-module>
