@@ -53,8 +53,9 @@ public class ManifestReader implements Constants {
 
 
         // there should be a file called 'manifest' at this location
-        if (!new File(manifestFilePath).exists()) {
-            throw new IOException(String.format("ManifestReader: code=unloadable_manifest: manifest not found at %s", manifestFilePath));
+        File manifestFile = new File(manifestFilePath);
+        if (!manifestFile.exists()) {
+            throw new IOException(String.format("ManifestReader: code=unloadable_manifest: manifest not found at %s", manifestFile.getAbsolutePath()));
         }
 
 
@@ -90,7 +91,7 @@ public class ManifestReader implements Constants {
 
 
                 // ignore comments
-                if (migrationName.length() == 0 || migrationName.startsWith("*")) {
+                if (migrationName.length() == 0 || migrationName.startsWith("#")) {
                     // ignored !
                 }
                 else {

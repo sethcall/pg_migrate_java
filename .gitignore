@@ -12,3 +12,6 @@ target
 # Intellij IDEA files
 *.iml
 .idea
+
+out
+test-output
