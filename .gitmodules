@@ -1,0 +1,3 @@
+[submodule "res/io/pgmigrate/templates"]
+	path = res/io/pgmigrate/templates
+	url = git@github.com:sethcall/pg_migrate_templates.git

@@ -17,7 +17,7 @@ public class FileIO {
         File last = new File(paths[0]);
 
         for(int i = 1; i < paths.length; i++) {
-            last = new File(last, paths[1]);
+            last = new File(last, paths[i]);
         }
 
         return last.getPath();
@@ -45,4 +45,5 @@ public class FileIO {
         } while (read >= 0);
         return data.toString();
     }
+
 }

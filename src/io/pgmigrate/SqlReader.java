@@ -17,17 +17,17 @@ import java.util.regex.Pattern;
 public class SqlReader {
 
     private static final Logger LOG = LoggerFactory.getLogger(SqlReader.class);
-    private static Pattern START_FUNCTION = Pattern.compile("^\\s*CREATE\\s+(OR\\s+REPLACE\\s+)?FUNCTION", Pattern.CASE_INSENSITIVE);
-    private static Pattern END_FUNCTION = Pattern.compile("(plpgsql|plperl|plpythonu|pltcl|sql)\\s*;$", Pattern.CASE_INSENSITIVE);
+    private static Pattern START_FUNCTION = Pattern.compile("^\\s*CREATE\\s+(OR\\s+REPLACE\\s+)?FUNCTION.*", Pattern.CASE_INSENSITIVE);
+    private static Pattern END_FUNCTION = Pattern.compile("^.*(plpgsql|plperl|plpythonu|pltcl|sql)\\s*;$", Pattern.CASE_INSENSITIVE);
 
-    public List<String> loadManifest(String manifestPath) throws IOException {
+    public List<String> loadMigration(String migrationPath) throws IOException {
         final List<String> statements = new ArrayList<String>();
 
         FileInputStream inputStream = null;
         DataInputStream dataInputStream = null;
         BufferedReader reader = null;
         try {
-            inputStream = new FileInputStream(manifestPath);
+            inputStream = new FileInputStream(migrationPath);
             dataInputStream = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dataInputStream));
             String line;

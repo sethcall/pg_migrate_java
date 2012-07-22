@@ -19,6 +19,8 @@ TESTCLASSES =$(shell find target/test-classes -name \*.class)
 compile: resolve
 	@echo "compiling..."
 	mkdir -p $(TARGET)/classes
+	mkdir -p $(TARGET)/classes/io/pgmigrate/templates
+	cp res/io/pgmigrate/templates/*.erb $(TARGET)/classes/io/pgmigrate/templates
 	$(JCC) $(JFLAGS) -cp $(CLASSPATH) $(JAVAFILES)
 
 testcompile: compile
