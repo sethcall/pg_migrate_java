@@ -37,4 +37,19 @@ public class SqlReaderTest {
         assertEquals(statements.get(line++), " CREATE FUNCTION clean_emp2() RETURNS void AS 'DELETE FROM emp;' LANGUAGE SQL");
         assertEquals(statements.get(line++), " CREATE FUNCTION populate() RETURNS integer AS $$ DECLARE BEGIN PERFORM clean_emp2(); END; $$ LANGUAGE plpgsql");
     }
+
+    @Test
+    public void loadSingleMigrationViaClasspath() throws IOException {
+        List<String> statements = sqlReader.loadMigration("classpath://input_manifests/single_migration/up/single1.sql");
+
+        int line = 0;
+        assertEquals(statements.size(), 7);
+        assertEquals(statements.get(line++), " select 1");
+        assertEquals(statements.get(line++), " select 2");
+        assertEquals(statements.get(line++), " select 3");
+        assertEquals(statements.get(line++), " create table emp(id BIGSERIAL PRIMARY KEY, name varchar(255))");
+        assertEquals(statements.get(line++), " CREATE FUNCTION clean_emp() RETURNS void AS ' DELETE FROM emp; ' LANGUAGE SQL");
+        assertEquals(statements.get(line++), " CREATE FUNCTION clean_emp2() RETURNS void AS 'DELETE FROM emp;' LANGUAGE SQL");
+        assertEquals(statements.get(line++), " CREATE FUNCTION populate() RETURNS integer AS $$ DECLARE BEGIN PERFORM clean_emp2(); END; $$ LANGUAGE plpgsql");
+    }
 }

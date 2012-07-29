@@ -7,6 +7,7 @@
 package io.pgmigrate;
 
 import io.pgmigrate.db.PgMigrateDb;
+import io.pgmigrate.packaging.Packager;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -30,6 +31,7 @@ public class MigratorTest implements Constants {
     private ManifestReader manifestReader;
     private Builder builder;
     private Migrator migrator;
+    private Packager packager;
     private TestUtil util;
 
     @BeforeTest
@@ -38,6 +40,7 @@ public class MigratorTest implements Constants {
         manifestReader = new ManifestReader();
         builder = new Builder(manifestReader, sqlReader);
         migrator = new Migrator(manifestReader, sqlReader);
+        packager = new Packager(manifestReader);
         util = new TestUtil(new Properties());
     }
 
@@ -51,11 +54,11 @@ public class MigratorTest implements Constants {
 
     }
 
-    public void migrateIt(final File buildout) throws Exception {
+    public void migrateIt(final String build_path) throws Exception {
 
         util.connectTestDatabase(new TestUtil.ConnectionBlock() {
-            @Override void exec(final Connection connection) throws Exception {
-                migrator.migrate(buildout.getPath(), connection);
+            @Override public void exec(final Connection connection) throws Exception {
+                migrator.migrate(build_path, connection);
 
                 PgMigrateDb dbConn = new PgMigrateDb(connection);
                 List<Map<String, Object>> result = dbConn.query("SELECT table_name FROM information_schema.tables WHERE table_name = ?", new String[] {"emp"});
@@ -105,8 +108,36 @@ public class MigratorTest implements Constants {
 
         util.createNewTestDatabase();
 
-        migrateIt(buildout);
-        migrateIt(buildout);
+        migrateIt(buildout.getPath());
+        migrateIt(buildout.getPath());
+    }
+
+    @Test
+    public void migrateSingleMigrationViaClasspath() throws Exception {
+
+        File src = new File("test/input_manifests/single_migration");
+        File dest = new File("target/input_single_migration");
+        File buildout = new File("target/output_single_migration");
+        File packageout = new File("target/package_single_migration");
+        FileUtils.deleteDirectory(dest);
+        FileUtils.deleteDirectory(buildout);
+        FileUtils.forceDeleteOnExit(buildout);
+
+        dest.mkdirs();
+        TestUtil.copyDirectory(src, dest);
+
+        builder.build(dest.getPath(), buildout.getPath(), true);
+
+        packager.packageJar(buildout.getPath(), packageout.getPath(), "org.corp.Migrator", "1.0", true);
+
+        assertTrue(new File(packageout, "Migrator-1.0.jar").exists());
+
+        // load jar
+        
+        util.createNewTestDatabase();
+
+        //migrateIt(buildout.get);
+        //migrateIt(buildout);
     }
 
 }

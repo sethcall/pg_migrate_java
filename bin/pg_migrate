@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# stackoverflow: http://stackoverflow.com/questions/630372/determine-the-path-of-the-executing-bash-script
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+JAR="pg_migrate.jar"
+
+# attempt to locate pg_migrate here
+LIB=$DIR/../lib
+
+if [ -f $LIB/$JAR ]; then
+    java -jar $LIB/$JAR  $*
+    exit $?
+fi
+
+LIB=$DIR/../target
+
+if [ -f $LIB/$JAR ]; then
+    java -jar "$LIB/$JAR" $*
+    exit $?
+fi
+
+echo "unable to find pg_migrate.jar"
+exit 1

@@ -31,8 +31,20 @@ public class ManifestReaderTest {
         assertEquals(manifest.iterator().next().getName(), "single1.sql");
     }
 
+    @Test
+    public void loadSingleManifestViaClasspath() throws Exception {
+        final SortedSet<Migration> manifest = manifestReader.loadInputManifest("classpath://input_manifests/single_migration");
+        assertEquals(manifest.size(), 1);
+        assertEquals(manifest.iterator().next().getName(), "single1.sql");
+    }
+
     @Test(expectedExceptions=IOException.class)
     public void failOnBadManifestReference() throws IOException {
         manifestReader.validateMigrationPaths("absolutely_nowhere_real", new ArrayList<Migration>() { { add(new Migration(0, "migration1", "blahpath"));} });
+    }
+
+    @Test(expectedExceptions=IOException.class)
+    public void failOnBadManifestReferenceViaClasspath() throws IOException {
+        manifestReader.validateMigrationPaths("classpath://absolutely_nowhere_real", new ArrayList<Migration>() { { add(new Migration(0, "migration1", "blahpath"));} });
     }
 }

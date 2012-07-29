@@ -115,12 +115,14 @@ public class Migrator extends PgMigrateDb implements Constants {
         if (manifestPath == null) {
             throw new IllegalArgumentException("manifestPath can not be null");
         }
-        File manifestPathFile = new File(manifestPath);
-        if (!manifestPathFile.exists()) {
-            throw new IllegalArgumentException("manifestPath must exist: " + manifestPath);
+
+        String manifestPathFile = FileIO.combine(manifestPath, MANIFEST_FILENAME);
+        if (!FileIO.exists(manifestPathFile)) {
+            throw new IllegalArgumentException("manifestPath must exist: " + manifestPathFile);
         }
-        if (!manifestPathFile.isDirectory()) {
-            throw new IllegalArgumentException("manifestPath must be a directory: " + manifestPath);
+
+        if (new File(manifestPathFile).isDirectory()) {
+            throw new IllegalArgumentException("manifestPath must be a file: " + manifestPath);
         }
 
         if (conn == null) {

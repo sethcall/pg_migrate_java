@@ -23,11 +23,11 @@ public class SqlReader {
     public List<String> loadMigration(String migrationPath) throws IOException {
         final List<String> statements = new ArrayList<String>();
 
-        FileInputStream inputStream = null;
+        InputStream inputStream = null;
         DataInputStream dataInputStream = null;
         BufferedReader reader = null;
         try {
-            inputStream = new FileInputStream(migrationPath);
+            inputStream = FileIO.getInputStream(migrationPath);
             dataInputStream = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dataInputStream));
             String line;

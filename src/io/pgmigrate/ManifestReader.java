@@ -32,7 +32,7 @@ public class ManifestReader implements Constants {
 
         for (Migration migration : loadedManifest) {
             final String migrationPath = buildMigrationPath(manifestPath, migration.getName());
-            if (!new File(migrationPath).exists()) {
+            if (!FileIO.exists(migrationPath)) {
                 throw new IOException(String.format("manifest reference %s does not exist at path %s", migration.getName(), migrationPath));
             }
         }
@@ -51,19 +51,16 @@ public class ManifestReader implements Constants {
 
         LOG.debug("loading manifest from {}", manifestFilePath);
 
-
         // there should be a file called 'manifest' at this location
-        File manifestFile = new File(manifestFilePath);
-        if (!manifestFile.exists()) {
-            throw new IOException(String.format("ManifestReader: code=unloadable_manifest: manifest not found at %s", manifestFile.getAbsolutePath()));
+        if (!FileIO.exists(manifestFilePath)) {
+            throw new IOException(String.format("ManifestReader: code=unloadable_manifest: manifest not found at %s", manifestFilePath));
         }
 
-
-        FileInputStream inputStream = null;
+        InputStream inputStream = null;
         DataInputStream dataInputStream = null;
         BufferedReader reader = null;
         try {
-            inputStream = new FileInputStream(manifestFilePath);
+            inputStream = FileIO.getInputStream(manifestFilePath);
             dataInputStream = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dataInputStream));
             String line;

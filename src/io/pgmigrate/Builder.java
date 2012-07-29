@@ -69,14 +69,14 @@ public class Builder implements Constants {
         final String inputManifest = FileIO.combine(inputDir, MANIFEST_FILENAME);
         final String outputManifest = FileIO.combine(outputDir, MANIFEST_FILENAME);
 
-        FileInputStream inputStream = null;
+        InputStream inputStream = null;
         DataInputStream dataInputStream = null;
         BufferedReader reader = null;
         FileOutputStream outputStream = null;
         DataOutputStream dataOutputStream = null;
         BufferedWriter writer = null;
         try {
-            inputStream = new FileInputStream(inputManifest);
+            inputStream = FileIO.getInputStream(inputManifest);
             dataInputStream = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dataInputStream));
             outputStream = new FileOutputStream(outputManifest);
@@ -134,7 +134,6 @@ public class Builder implements Constants {
         else {
             pathFile = new File(rootPath, path);
         }
-
 
         for (String nestedPath : pathFile.list()) {
 

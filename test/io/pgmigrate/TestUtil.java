@@ -97,7 +97,7 @@ public class TestUtil {
         }
 
 
-        abstract void exec(Connection connection) throws Exception;
+        public abstract void exec(Connection connection) throws Exception;
 
 
     }

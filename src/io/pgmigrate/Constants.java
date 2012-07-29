@@ -21,8 +21,9 @@ public interface Constants {
     /** built manifest version header */
     public final String  BUILDER_VERSION_HEADER="# pg_migrate-";
 
+    public final String PG_CONFIG = ".pg_config";
+    
     ///// SQL CONSTANTS /////
     public final String PG_MIGRATE_TABLE = "pg_migrate";
     public final String PG_MIGRATIONS_TABLE = "pg_migrations";
-
 }
