@@ -68,7 +68,7 @@ public class MigratorTest implements Constants {
 
                 Long pgMigrationId = null;
 
-                result = dbConn.query("SELECT * FROM pg_migrations");
+                result = dbConn.query("SELECT * FROM pgmigrate.pg_migrations");
                 assertEquals(result.size(), 1);
                 assertEquals(result.get(0).get("name"), "single1.sql");
                 assertEquals(result.get(0).get("ordinal"), 0);
@@ -78,10 +78,10 @@ public class MigratorTest implements Constants {
 
                 // verify that a database row in pg_migrate was created as side-effect
 
-                result = dbConn.query("SELECT * FROM pg_migrate WHERE id = ?", new Object[] {pgMigrationId});
+                result = dbConn.query("SELECT * FROM pgmigrate.pg_migrate WHERE id = ?", new Object[] {pgMigrationId});
 
                 assertEquals(result.size(), 1);
-                assertEquals(result.get(0).get("template_version"), "0.0.1");
+                assertEquals(result.get(0).get("template_version"), "0.1.0");
                 assertEquals(result.get(0).get("builder_version"), "pg_migrate_java-" + Version.PG_MIGRATE);
                 assertEquals(result.get(0).get("migrator_version"), "pg_migrate_java-" + Version.PG_MIGRATE);
                 String databaseVersion = (String) result.get(0).get("database_version");

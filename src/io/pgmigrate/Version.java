@@ -8,5 +8,5 @@ package io.pgmigrate;
 
 public interface Version {
 
-    public static String PG_MIGRATE = "0.0.2";
+    public static String PG_MIGRATE = "0.1.0";
 }
