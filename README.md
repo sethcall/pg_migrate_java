@@ -21,6 +21,6 @@ Ivy Downloads are available here: http://ant.apache.org/ivy/download.cgi.  I've 
 `export IVY=/Users/seth/workspace/apache-ivy-2.3.0-rc1/ivy-2.3.0-rc1.jar`
 
 ```bash
-make package # this will generate jar in ./target after running tests. I do not suspect this works on Windows until I've tried it.
+make package # this will generate jar in ./target after running tests.
 ```
 
